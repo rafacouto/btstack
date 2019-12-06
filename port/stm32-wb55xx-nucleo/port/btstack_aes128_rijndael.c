@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 BlueKitchen GmbH
+ * Copyright (C) 2015 BlueKitchen GmbH
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -35,62 +35,13 @@
  *
  */
 
-/*
- *  Made for BlueKitchen by OneWave with <3
- *      Author: ftrefou@onewave.io
- */
+#define __BTSTACK_FILE__ "btstack_aes128_rijndael.c"
 
-#ifndef __BTSTACK_CONFIG
-#define __BTSTACK_CONFIG
+#include "rijndael.h"
 
-// Port related features
-#define HAVE_EMBEDDED_TIME_MS
-//#define HAVE_AUDIO_DMA
-#define HAVE_FREERTOS_TASK_NOTIFICATIONS
-#define HAVE_AES128
-
-// BTstack features that can be enabled
-#define ENABLE_BLE
-#define ENABLE_LE_PERIPHERAL
-#define ENABLE_LE_CENTRAL
-#define ENABLE_LE_SECURE_CONNECTIONS
-//#define ENABLE_CLASSIC
-#define ENABLE_LOG_INFO
-#define ENABLE_LOG_ERROR
-//#define ENABLE_LOG_DEBUG
-// #define ENABLE_HCI_DUMP
-//#define ENABLE_CC256X_BAUDRATE_CHANGE_FLOWCONTROL_BUG_WORKAROUND
-//#define ENABLE_EHCILL
-#define ENABLE_MICRO_ECC_P256
-//#define HAVE_UART_DMA_SET_FLOWCONTROL
-//#define ENABLE_LE_DATA_LENGTH_EXTENSION
-// #define ENABLE_SEGGER_RTT
-
-
-// BTstack configuration. buffers, sizes, ...
-#define HCI_ACL_PAYLOAD_SIZE (512 + 4) //Max official att size + l2cap header size
-#define MAX_NR_GATT_CLIENTS 1
-#define MAX_NR_HCI_CONNECTIONS 1
-#define MAX_NR_L2CAP_SERVICES  2
-#define MAX_NR_L2CAP_CHANNELS  3
-#define MAX_NR_BTSTACK_LINK_KEY_DB_MEMORY_ENTRIES  2
-#define MAX_NR_BNEP_SERVICES 0
-#define MAX_NR_BNEP_CHANNELS 0
-#define MAX_NR_HFP_CONNECTIONS 0
-#define MAX_NR_WHITELIST_ENTRIES 1
-#define MAX_NR_SM_LOOKUP_ENTRIES 3
-#define MAX_NR_SERVICE_RECORD_ITEMS 1
-#define MAX_NR_LE_DEVICE_DB_ENTRIES 1
-//#define MAX_NR_RFCOMM_MULTIPLEXERS 1
-//#define MAX_NR_RFCOMM_SERVICES 1
-//#define MAX_NR_RFCOMM_CHANNELS 1
-//#define MAX_NR_AVDTP_STREAM_ENDPOINTS 1
-//#define MAX_NR_AVDTP_CONNECTIONS 1
-//#define MAX_NR_AVRCP_CONNECTIONS 1
-
-#define MAX_ATT_DB_SIZE 350
-
-// Link Key DB and LE Device DB using TLV on top of Flash Sector interface
-#define NVM_NUM_DEVICE_DB_ENTRIES 6
-
-#endif
+void btstack_aes128_calc(uint8_t * key, uint8_t * plaintext, uint8_t * result);
+void btstack_aes128_calc(uint8_t * key, uint8_t * plaintext, uint8_t * result){
+	uint32_t rk[RKLENGTH(KEYBITS)];
+	int nrounds = rijndaelSetupEncrypt(rk, &key[0], KEYBITS);
+	rijndaelEncrypt(rk, nrounds, plaintext, result);
+}

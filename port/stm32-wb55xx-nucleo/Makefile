@@ -75,6 +75,7 @@ ${BTSTACK_ROOT}/src/l2cap_signaling.c \
 ${BTSTACK_ROOT}/src/hci_transport_h4.c \
 ${BTSTACK_ROOT}/platform/embedded/hal_flash_bank_memory.c \
 ${BTSTACK_ROOT}/platform/embedded/btstack_tlv_flash_bank.c \
+${BTSTACK_ROOT}/test/rijndael/rijndael.c \
 $(FREERTOS_ROOT)/FreeRTOS/tasks.c \
 $(FREERTOS_ROOT)/FreeRTOS/queue.c \
 $(FREERTOS_ROOT)/FreeRTOS/list.c \
@@ -89,6 +90,7 @@ Middlewares/STM32_WPAN/utilities/stm_list.c \
 Middlewares/STM32_WPAN/utilities/otp.c \
 port/btstack_port.c \
 port/hal_flash_bank_stm32wb.c \
+port/btstack_aes128_rijndael.c \
 Src/main.c \
 Src/stm32wbxx_it.c \
 Src/stm32wbxx_hal_timebase_tim.c \
@@ -194,6 +196,7 @@ C_INCLUDES += -I${BTSTACK_ROOT}/3rd-party/micro-ecc
 C_INCLUDES += -I${BTSTACK_ROOT}/3rd-party/segger-rtt
 C_INCLUDES += -I${BTSTACK_ROOT}/platform/embedded
 C_INCLUDES += -I${BTSTACK_ROOT}/platform/freertos
+C_INCLUDES += -I${BTSTACK_ROOT}/test/rijndael/
 C_INCLUDES += -I bsp
 C_INCLUDES += -I pdm
 C_INCLUDES += -I port
